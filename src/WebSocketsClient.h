@@ -112,6 +112,11 @@ class WebSocketsClient : protected WebSockets {
     void disableHeartbeat();
 
     bool isConnected(void);
+    
+    /**
+     * Flush the TCP/SSL input buffer (discard any incoming data)
+     */
+    void flush();
 
   protected:
     String _host;

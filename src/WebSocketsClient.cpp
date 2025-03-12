@@ -39,6 +39,19 @@ WebSocketsClient::~WebSocketsClient() {
     disconnect();
 }
 
+void WebSocketsClient::flush() {
+    if (_client.tcp) {
+        // Flush any outgoing data (if applicable)
+        _client.tcp->flush();
+        
+        // Read and discard all currently available data from the TCP/SSL layer.
+        while (_client.tcp->available() > 0) {
+            _client.tcp->read();
+        }
+        DEBUG_WEBSOCKETS("[WS-Client] TCP/SSL layer flushed.\n");
+    }
+}
+
 /**
  * calles to init the Websockets server
  */
